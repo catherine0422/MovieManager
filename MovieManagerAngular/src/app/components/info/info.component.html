@@ -1,0 +1,43 @@
+<app-head></app-head>
+<div class="info-body" id="info-body">
+    <div class="info-header">
+        <a [routerLink]="['/list/',1]" ><img src="/assets/back.png" alt="back" class="back"></a>
+        <div class="operation">
+            <img src="/assets/collected.png" alt="collected" title="remove from collection"*ngIf="movie.collected" (click)="collect()">
+            <img src="/assets/collect.png" alt="collected" title="add to collection" *ngIf="!movie.collected" (click)="collect()">
+            <a [routerLink]="['/editold/',movie._id]"  ><img src="/assets/edit.png" alt="edit" title="edit" ></a>
+            <img src="/assets/delete.png" alt="delete" title="delete" (click)="delete()">
+        </div>
+    </div>
+    <div class="basicInfo">
+        <img src="{{movie.img}}" alt="poster" class="img">
+        <div class="text">
+            <ul>
+                <li>Title : {{movie.title}}</li>
+                <li>Director : {{movie.director}}</li>
+                <li><span class="star">Stars : </span>
+                    <span *ngFor="let item of movie.stars">{{item}},</span> </li>
+                <li>Type : {{movie.type}}</li>
+                <li>Region : {{movie.region}}</li>
+                <li>Duration : {{movie.duration}} mins</li>
+                <li>Release time : {{movie.release_time}}</li>
+                <li>Create time : {{movie.create_time}}</li>
+                <li>Rate : {{movie.rate}}</li>
+            </ul>
+        </div>
+    </div>
+
+    <ul class="infoLong">
+        <li>
+            <p class="synopsis">Synopsis : </p>
+            <br>
+            <p class="synopsis">{{movie.synopsis}}</p>
+        </li>
+        <li>
+            <p class="review">Review : </p>
+            <br>
+            <p class="review">{{movie.review}}</p>
+        </li>
+    </ul>
+
+</div>

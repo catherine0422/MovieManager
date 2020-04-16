@@ -1,0 +1,142 @@
+<div class="header">
+    <div class="searchContainer">
+
+        <select class="type" [(ngModel)]="type">
+            <option value="title">Title</option>
+            <option value="director">Director</option>
+            <option value="writer">Writer</option>
+            <option value="stars">Stars</option>
+        </select>
+    
+        <input type="text" class="input" [(ngModel)]="query">
+    
+        <input type="submit" class="submit" value="Search" (click)="doSearch()">
+
+    </div>
+
+</div>
+
+<div class="list-body" id="list-body">
+
+    <div class="filter" >
+        <div class="filter-show">
+            <div class="firstLine">
+                <div class="filter-button" >
+                    <img src="/assets/filter.png" alt="show filters" class="filter-image" (click)="showfilter()">
+                    <div class="filter-text" (click)="showfilter()">filter</div>
+                </div>
+                <div class="create">
+                    <div (click)="clear()">Clear All filter</div>
+                    <a [routerLink]="['/edit/',-1]"><img src='/assets/create.png'>Create a new data</a>
+                </div>
+            </div>
+
+            <hr>
+        </div>
+        <div class="filter-hidden" *ngIf="flag">
+            <div class="group">
+                <div class="type">Region:</div>
+                <div class="flex">
+                    <input type="checkbox" name="Region" value="Europe"[(ngModel)]="filter.Region.Europe">Europe
+                    <input type="checkbox" name="Region" value="Asia"[(ngModel)]="filter.Region.Asia">Asia
+                    <input type="checkbox" name="Region" value="Africa"[(ngModel)]="filter.Region.Africa">Africa
+                    <input type="checkbox" name="Region" value="Others"[(ngModel)]="filter.Region.Others">Others
+                </div>
+            </div>
+            <hr>
+
+            <div class="group">
+                <div class="type">Type:</div>
+                <div class="flex">
+                    <input type="checkbox" name="Genre" value="Adventure"[(ngModel)]="filter.Type.Adventure">Adventure
+                    <input type="checkbox" name="Genre" value="Animation"[(ngModel)]="filter.Type.Animation">Animation
+                    <input type="checkbox" name="Genre" value="Comedy"[(ngModel)]="filter.Type.Comedy">Comedy
+                    <input type="checkbox" name="Genre" value="Documentary"[(ngModel)]="filter.Type.Documentary">Documentary
+                    <input type="checkbox" name="Genre" value="Romance" [(ngModel)]="filter.Type.Romance">Romance
+                    <input type="checkbox" name="Genre" value="Others" [(ngModel)]="filter.Type.Others">Others
+                </div>
+                
+            </div>
+            <hr>
+
+            <div class="group">
+                <div class="type">My collection:</div>
+                <div class="flex">
+                    <input type="radio" value="true" name="collect" id="collected" [(ngModel)]="filter.collected"> <label for="collected">Yes</label> 
+                    <input type="radio" value="false" name="collect" id="notCollect" [(ngModel)]="filter.collected"> <label for="notCollect">No</label> 
+                </div>
+                
+            </div>
+            <hr>
+            <div class="finishContainer">
+                <div class="finish" (click)="runfilter()">Run Filter</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="middle">
+        <div class="resulet">{{totalcount}} results {{searchPhrase}}</div>
+        
+        <div class="sortContainer">
+            <span class="sortText">Sort by &nbsp;</span>
+            <select class="sort" [(ngModel)]="sort" (change)="goSort()">
+                <option value="create_time">create time</option>
+                <option value="release_date">release time</option>
+                <option value="rate">rate</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="list">
+        <div class="moviecontainer"*ngFor="let item of thispagemovies; let i = index" >
+            
+            <div class="imgcontainer">
+                <a [routerLink]="['/info/',item._id]" title="{{item.title}}" ><img src="{{item.img}}" alt="poster"></a>
+            </div>
+            <div class="info">
+                <a class="title" title="{{item.title}}" [routerLink]="['/info',item._id]">{{item.title}}</a>
+                <div class="rate">{{item.rate}}</div>
+            </div>
+            <div class="operation">
+                <img src="/assets/collected.png" alt="collected" title="remove from collection"*ngIf="item.collected" (click)="collect(i)">
+                <img src="/assets/collect.png" alt="collected" title="add to collection" *ngIf="!item.collected" (click)="collect(i)">
+                <a [routerLink]="['/editold/',item._id]"  ><img src="/assets/edit.png" alt="edit" title="edit"></a>
+                <img src="/assets/delete.png" alt="delete" title="delete" (click)="delete(i)">
+            </div>
+        </div>
+    </div>
+
+    <div class="bottom" *ngIf="totalpage<7">
+        <a [routerLink]="['/list']" [queryParams]="{page:previouspage,filter:strfinalfilter}">&laquo;</a>
+        <div class ="pagination" *ngFor="let item of pageset">
+            <a [routerLink]="['/list']"  [queryParams]="{page:item,filter:strfinalfilter}"[ngClass]="{current: item==currentpage}">{{item}}</a>
+        </div>
+        <a [routerLink]="['/list']" [queryParams]="{page:nextpage,filter:strfinalfilter}">&raquo;</a>
+    </div>
+    <div class="bottom" *ngIf="totalpage>=7">
+        <div class="pagination" *ngIf="currentpage<4||currentpage>(totalpage-3)">
+            <a [routerLink]="['/list']" [queryParams]="{page:previouspage,filter:strfinalfilter}" >&laquo;</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:1,filter:strfinalfilter}" [ngClass]="{current: 1==currentpage}">1</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:2,filter:strfinalfilter}" [ngClass]="{current: 2==currentpage}">2</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:3,filter:strfinalfilter}" [ngClass]="{current: 3==currentpage}">3</a>
+            <span>. . .</span>
+            <a [routerLink]="['/list']" [queryParams]="{page:totalpage-2,filter:strfinalfilter}" [ngClass]="{current: (totalpage-2)==currentpage}">{{totalpage-2}}</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:totalpage-1,filter:strfinalfilter}" [ngClass]="{current: (totalpage-1)==currentpage}">{{totalpage-1}}</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:totalpage,filter:strfinalfilter}" [ngClass]="{current: totalpage==currentpage}">{{totalpage}}</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:nextpage,filter:strfinalfilter}">&raquo;</a>
+        </div>
+
+        <div class="pagination" *ngIf="currentpage>=4&&currentpage<=(totalpage-3)">
+            <a [routerLink]="['/list']" [queryParams]="{page:previouspage,filter:strfinalfilter}">&laquo;</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:1,filter:strfinalfilter}" >1</a>
+            <span>. . .</span>
+            <a [routerLink]="['/list']" [queryParams]="{page:currentpage-1,filter:strfinalfilter}" >{{currentpage-1}}</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:currentpage,filter:strfinalfilter}"  class="current">{{currentpage}}</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:currentpage+1,filter:strfinalfilter}">{{currentpage+1}}</a>
+            <span>. . .</span>
+
+            <a [routerLink]="['/list']" [queryParams]="{page:totalpage,filter:strfinalfilter}" >{{totalpage}}</a>
+            <a [routerLink]="['/list']" [queryParams]="{page:nextpage,filter:strfinalfilter}">&raquo;</a>
+        </div>
+    </div>
+</div>

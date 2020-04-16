@@ -1,0 +1,56 @@
+<app-head></app-head>
+<div class="edit-body">
+    <a [routerLink]="['/list']" ><img src="/assets/back.png" alt="back" class="back"></a>
+    <ul>
+        <li>Title : <br><input type="text" id="title" [(ngModel)]="movie.title" placeholder="title" class="infoShort"></li>
+        <li>Director : <br><input type="text" [(ngModel)]="movie.director"placeholder="director" class="infoShort"></li>
+        <li>Writer : <br><input type="text" [(ngModel)]="movie.writer"placeholder="writer"class="infoShort"></li>
+        <li>Stars : <br><input type="text" [(ngModel)]="strStars" placeholder="separate by comma "class="infoShort"></li>
+        <li>Duration : <br><input type="number" min="0" max="10" [(ngModel)]="movie.duration"  placeholder="/mins"class="infoShort"> </li>
+        <li>Rate the movie : <br><input type="number" [(ngModel)]="movie.rate" placeholder="/10"v></li>
+        <li>Release date : <br><input type="date" [(ngModel)]="movie.release_date"class="infoShort"></li>
+        <li>Type : <br>
+            <select class="type" [(ngModel)]="movie.type"class="infoShort">
+                <option value="Adventure">Adventure</option>
+                <option value="Animation">Animation</option>
+                <option value="Comedy">Comedy</option>
+                <option value="Documentary">Documentary</option>
+                <option value="Romance">Romance</option>
+                <option value="Others">Others</option>
+            </select>
+        </li>
+        <li>Region : <br>
+            <select class="Reigion" [(ngModel)]="movie.region"class="infoShort">
+                <option value="Europe">Europe</option>
+                <option value="Asia">Asia</option>
+                <option value="Africa">Africa</option>
+                <option value="Others">Others</option>
+            </select>
+        </li>
+        <li>Add to my collection ：<br>
+            <div class="radiocontainer">
+                <input type="radio" value="true" name="collect" id="collected" [(ngModel)]="collected"> <label for="collected">Yes</label> 
+                <input type="radio" value="false" name="collect" id="notCollect" [(ngModel)]="collected" class="radio"> <label for="notCollect">No</label> 
+            </div>
+           
+        </li>
+        <li>Image : <input type="file" (change)="selectImage($event)"> 
+        <button type="submit" (click)="onSubmit()">Upload</button>
+        <br>
+        <div class="imagecontainer">
+            <img [src]="imageUrl" alt="uploaded" class="uploadImage" *ngIf="imageUrl">
+        </div>    
+        </li>
+        <li>Synopsis : 
+            <br>
+            <textarea [(ngModel)]="movie.synopsis" class="infoLong" cols="60" rows="15" ></textarea> </li>
+        <li>Review : 
+            <br>
+            <textarea [(ngModel)]="movie.review" class="infoLong" cols="60" rows="15" ></textarea> </li>
+    </ul>
+<div class="container">
+    <div class="save" (click)="saveData()">save</div>
+    <div class="alert" *ngIf="alert">{{alertMessage}}</div>
+</div>
+    
+</div>

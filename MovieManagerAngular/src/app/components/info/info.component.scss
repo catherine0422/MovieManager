@@ -1,0 +1,50 @@
+.info-body{
+    padding:62px 50px;
+    .info-header{
+        .back{
+            width: 30px;
+        }
+        .back:hover{
+            cursor: pointer;
+        }
+        .operation{
+            margin-right: 50px;
+            margin-top: 3px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            img{
+                width:26px;
+                margin-left: 25px;
+            }
+            img:hover{
+                cursor:pointer;
+            }
+        }
+
+    }
+    .basicInfo{
+        
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        .img{
+            max-width: 200px;
+            max-height:300px;
+        }
+        li{
+            margin: 5px;
+            max-width: 350px;
+            list-style-type: disc;
+        }
+
+    }
+    .infoLong{
+        margin: 15px;
+        li{
+            margin-top: 20px;
+            list-style-type: disc;
+        }
+    }
+    
+}

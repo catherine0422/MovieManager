@@ -1,0 +1,19 @@
+.header{
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    background-color: black;
+    position: fixed;
+    left:0px;
+    top:0px;
+    width: 100%;
+    .imgcontainer{
+        display: flex;
+        align-items: center;
+        .img{
+            width: 370px;
+        }
+    }
+}
